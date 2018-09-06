@@ -1,6 +1,13 @@
+function loadAll(owen, joshua, ian)
+{
+    getAvailable("availbleFundsOwen", owen);
+    getAvailable("availbleFundsJoshua", joshua);
+    getAvailable("availbleFundsIan", ian);
+}
+
 function load(id)
 {
-	getAvailable(id);
+	getAvailable("availbleFunds", id);
     getHistory(id);
 }
 
@@ -18,21 +25,21 @@ function getHistory(id)
 	xmlhttp.send();
   }
 
-function getAvailable(id)
+function getAvailable(availbleFundsElement, id)
 {
   var xmlhttp = new XMLHttpRequest();
   var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/B1?key=AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY";
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
-          displayAvailableFunds(myArr);
+          displayAvailableFunds(myArr,availbleFundsElement);
       }
   };
 	xmlhttp.open("GET", url, true);
 	xmlhttp.send();
   }
-function displayAvailableFunds(arr) {
-    document.getElementById("availbleFunds").innerHTML = '$' + arr.values[0];
+function displayAvailableFunds(arr, availbleFundsElement) {
+    document.getElementById(availbleFundsElement).innerHTML = '$' + arr.values[0];
 }
 
 function displayHistory(arr) {
