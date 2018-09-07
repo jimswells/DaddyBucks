@@ -1,34 +1,108 @@
+//Auth Section
+
+function checkPasscode(code)
+{   
+    var auth = false;
+    var admin = false;
+
+    kids.forEach(function(kid) { 
+        if ( code == kid.passcode )
+        {
+            setAccount(kid);
+            auth = true;
+        }
+    });
+
+    if (auth == true)
+    {
+        document.location = "accounts/index.html";
+    }
+}
+
+function setAccount(kid)
+{
+    localStorage.setItem("name",kid.name);
+    localStorage.setItem("picture",kid.picture);
+    localStorage.setItem("role",kid.role);
+}
+
+function logout(){
+    localStorage.setItem("name","");
+    localStorage.setItem("picture","");
+    checkAuth();
+}
+
+function getAccountID() {
+    return localStorage.getItem("name");
+}
+
+function checkAuth()
+{
+    if (getAccountID() == "")
+    {//Kickout
+        document.location = "../index.html";
+    }
+}
+
+
+//End Auth Section
+
 function loadAll(owen, joshua, ian)
 {
+    checkAuth();
     getAvailable("availbleFundsOwen", owen);
     getAvailable("availbleFundsJoshua", joshua);
     getAvailable("availbleFundsIan", ian);
 }
 
-function load(id)
+function load()
 {
-	getAvailable("availbleFunds", id);
-    getHistory(id);
+    checkAuth();
+    setHeader();
+	getAvailable("availbleFunds", getAccountID());
+    getHistory(getAccountID());
 }
 
-function getHistory(id)
+function setHeader()
+{
+    document.getElementById("accountName").innerHTML = localStorage.getItem("name");
+    document.getElementById("accountPicture").src = "../images/" + localStorage.getItem("picture");
+    document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
+}
+
+function getHistory(sheet)
 {
   var xmlhttp = new XMLHttpRequest();
-  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/Sheet1!A2:B1005?key=AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY";
+  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/"+ sheet + "!D2:F1000?key=" + apiKey;
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          displayHistory(myArr);
+          var json = JSON.parse(this.responseText);
+          displayHistory(json);
       }
   };
 	xmlhttp.open("GET", url, true);
 	xmlhttp.send();
-  }
+}
 
-function getAvailable(availbleFundsElement, id)
+function displayHistory(json) {
+		
+	var table = '<table>';
+    for (item in json.values.reverse()) {  
+		
+		var description = json.values[item][0];        
+        var date = json.values[item][1];
+        var amount = json.values[item][2];
+	    table += '<tr><td>' + date + '</td><td>' + description + '</td><td>$' + amount + '</td></tr>';        
+    }
+	table += '</table>';
+    
+	document.getElementById("history").innerHTML = table;
+}
+
+function getAvailable(availbleFundsElement, sheet)
 {
   var xmlhttp = new XMLHttpRequest();
-  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/B1?key=AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY";
+  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/" + sheet + "!B2?key=" + apiKey;
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
@@ -37,21 +111,52 @@ function getAvailable(availbleFundsElement, id)
   };
 	xmlhttp.open("GET", url, true);
 	xmlhttp.send();
-  }
+}
+
 function displayAvailableFunds(arr, availbleFundsElement) {
     document.getElementById(availbleFundsElement).innerHTML = '$' + arr.values[0];
 }
 
-function displayHistory(arr) {
-		
-	var table = '<table>';
-    for (item in arr.values.reverse()) {  
-		
-		var description = arr.values[item][0];        
-        var amount = arr.values[item][1];
-			table += '<tr><td>' + description + '</td><td>$' + amount + '</td></tr>';        
-    }
-	table += '</table>';
+//Inital page
+var kids = [];
+
+var id = '14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs';
+var apiKey = 'AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY';
+
+//var kids = new Array();
+
+    function Initalize()
+    {
     
-	document.getElementById("history").innerHTML = table;
-}
+      var xmlhttp = new XMLHttpRequest();
+      var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "?key=" + apiKey;
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              var json = JSON.parse(this.responseText);
+              json.sheets.forEach(function(entry) { getPasscode(entry.properties.title);  });
+          }
+      };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+    
+    function getPasscode(sheet)
+    {
+        var xmlhttp = new XMLHttpRequest();
+      var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/"+ sheet + "!A2:B100?key=" + apiKey;
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              var json = JSON.parse(this.responseText);
+
+              var n = json.values[1][1];
+              var p = json.values[2][1];
+              var pic = json.values[3][1];
+              var r = json.values[4][1];
+              kids.push( { name : n, passcode : p, picture : pic, role : r  });
+              
+
+          }
+      };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
