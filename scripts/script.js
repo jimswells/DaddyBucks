@@ -67,13 +67,13 @@ function setHeader()
 {
     document.getElementById("accountName").innerHTML = localStorage.getItem("name");
     document.getElementById("accountPicture").src = "../images/" + localStorage.getItem("picture");
-    document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
+    //document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
 }
 
 function getHistory(sheet)
 {
   var xmlhttp = new XMLHttpRequest();
-  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/"+ sheet + "!D2:F1000?key=" + apiKey;
+  var url = sheeturl + id + "/values/"+ sheet + "!D2:F1000?key=" + apiKey;
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var json = JSON.parse(this.responseText);
@@ -86,13 +86,30 @@ function getHistory(sheet)
 
 function displayHistory(json) {
 		
-	var table = '<table>';
+    var table = '<table><tr><th>Date</th><th>Description</th><th>Amount</th></tr>';
+    var altRow = true;
     for (item in json.values.reverse()) {  
 		
 		var description = json.values[item][0];        
         var date = json.values[item][1];
         var amount = json.values[item][2];
-	    table += '<tr><td>' + date + '</td><td>' + description + '</td><td>$' + amount + '</td></tr>';        
+
+        var rowClass = "historyRow";
+        var amountClass = 'historyPosAmount'
+
+        if (amount <= 0)
+        {
+            amountClass = 'historyNegAmount';
+        }
+
+        if (altRow == true) 
+        {
+            rowClass = 'historyAltRow';
+
+        }
+        table += '<tr class="' + rowClass +'"><td>' + date + '</td><td>' + description + '</td><td class="'+ amountClass +'">$' + Number(amount).toFixed(2) + '</td></tr>'; 
+
+        altRow = !altRow;
     }
 	table += '</table>';
     
@@ -102,7 +119,7 @@ function displayHistory(json) {
 function getAvailable(availbleFundsElement, sheet)
 {
   var xmlhttp = new XMLHttpRequest();
-  var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/" + sheet + "!B2?key=" + apiKey;
+  var url =  sheeturl + id + "/values/" + sheet + "!B2?key=" + apiKey;
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
@@ -114,14 +131,21 @@ function getAvailable(availbleFundsElement, sheet)
 }
 
 function displayAvailableFunds(arr, availbleFundsElement) {
-    document.getElementById(availbleFundsElement).innerHTML = '$' + arr.values[0];
+
+    if (arr.values[0] < 0)
+    {
+        document.getElementById(availbleFundsElement).class = 'historyNegAmount';
+    }
+
+    document.getElementById(availbleFundsElement).innerHTML = '$' + Number(arr.values[0]).toFixed(2);
 }
 
 //Inital page
 var kids = [];
 
-var id = '14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs';
-var apiKey = 'AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY';
+var id = '14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs';//Id to your Google Sheet
+var apiKey = 'AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY';//your API key
+var sheeturl = 'https://content-sheets.googleapis.com/v4/spreadsheets/';
 
 //var kids = new Array();
 
@@ -129,7 +153,7 @@ var apiKey = 'AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY';
     {
     
       var xmlhttp = new XMLHttpRequest();
-      var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "?key=" + apiKey;
+      var url = sheeturl + id + "?key=" + apiKey;
       xmlhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
               var json = JSON.parse(this.responseText);
@@ -143,7 +167,7 @@ var apiKey = 'AIzaSyB-uXw1gDXsH449HBCZmeBIiQrIO1Am5kY';
     function getPasscode(sheet)
     {
         var xmlhttp = new XMLHttpRequest();
-      var url = "https://content-sheets.googleapis.com/v4/spreadsheets/" + id + "/values/"+ sheet + "!A2:B100?key=" + apiKey;
+      var url = sheeturl + id + "/values/"+ sheet + "!A2:B100?key=" + apiKey;
       xmlhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
               var json = JSON.parse(this.responseText);

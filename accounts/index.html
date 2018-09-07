@@ -5,13 +5,18 @@
 <link rel="stylesheet" type="text/css" href="../styles/styles.css">
 </head>
 <body onLoad="load();">
-<p><input type="button" onclick="logout();" value="Logout" /></p>
-<p>Welcome back <span id="accountName"></span>!</p>
-<p><span id="accountRole"></span></p>
-<p><img id="accountPicture" width="200px"></img></p>
-<h1>Available Funds <span class="funds" id="availbleFunds"></span></h1>
+<div class="header">
+    <span class="logo">Welcome back <span id="accountName"></span> to your DaddyBucks account!</span>
+    <div class="header-right">
+        <a class="active" href="" onclick="logout();">Logout</a>
+    </div>
+</div>
+<div class="content">
+<p><img class="avatarImg" id="accountPicture" width="175px"></img></p>
+<h1 class="funds">Available Funds <span class="historyPosAmount" id="availbleFunds"></span></h1>
 
-<div id="history"></div>
+<div id="history" class="history"></div>
 
+</div>
 </body>
 </html>
