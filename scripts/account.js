@@ -90,38 +90,13 @@ function displayAvailableFunds(arr, availbleFundsElement) {
     {
         document.getElementById(availbleFundsElement).class = 'historyNegAmount';
     }
-
-    //alert(document.getElementById(availbleFundsElement).innerHTML);
+    
     document.getElementById(availbleFundsElement).innerHTML =  '$' + Number(arr.values[0]).toFixed(2);
     
 }
 
-function addFunds() {
-    var xmlhttp = new XMLHttpRequest();
-    var url =  sheeturl + id + "/values/" + getAccountID() + "!D:F:append?insertDataOption=INSERT_ROWS&valueInputOption=RAW&alt=json&key=" + apiKey;
-    //var url = 'https://content-sheets.googleapis.com/v4/spreadsheets/1cfM6dmkbDKy9gNdGNsbigQzK7wpjKDrg_y62wVDbtZ4/values/Sheet1!A:AB:append?valueInputOption=USER_ENTERED&key='+ apiKey;
-    var body = '{"values": [["09/09/2018","Test2","15"]],scope: ["https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/spreadsheets"]}';
-    xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          var myArr = JSON.parse(this.responseText);
-          load();
-      }else if (this.readyState == 4) {
-        alert(this.responseText);
-    }
-  };
-    xmlhttp.open("POST", url, true);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + apiKey);
-	xmlhttp.send(body);
-}
-
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-
-function deductFunds() {
+function assignDefaults(description, amount) {
+    document.getElementById('fundDescription').value = description;
+    document.getElementById('fundAmount').value = amount;
 
 }

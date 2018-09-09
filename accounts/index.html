@@ -9,9 +9,6 @@
 <script src="https://apis.google.com/js/api.js"></script>
 
 <link rel="stylesheet" type="text/css" href="../styles/styles.css">
-
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="767773074311-g2vffu719ldvp3jh2ktjfipqqfcgqq4d.apps.googleusercontent.com">
 </head>
 <body onLoad="load(); authenticate().then(loadClient);" onunload="logout();">
 <div class="header">
@@ -73,9 +70,26 @@
             gapi.auth2.init({client_id: '767773074311-g2vffu719ldvp3jh2ktjfipqqfcgqq4d.apps.googleusercontent.com'});
           });
       </script>
-      <button onclick="execute()">Add funds</button>
-    
-<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="text">
+      
+
+
+    Description: <input id='fundDescription' type="text" style="width:40%;" ><br>
+    Amount : <input id='fundAmount' type="text">
+    <button onclick="execute()">Add funds</button>
+    <hr>
+    <button onclick="assignDefaults('School work',1);">School 1</button>
+    <button onclick="assignDefaults('School work',2);">School 2</button>
+    <button onclick="assignDefaults('School work',3);">School 3</button>
+    <button onclick="assignDefaults('School work',4);">School 4</button>
+    <button onclick="assignDefaults('School work',5);">School 5</button>
+    <hr>
+    <button onclick="assignDefaults('Chores',1);">Chores 1</button></br>
+    <button onclick="assignDefaults('Chores',1);">Being nice 1</button></br>
+    <hr>
+    <button onclick="assignDefaults('Bad Behavior',-1);">Bad Behavior -1</button></br>
+    <button onclick="assignDefaults('Being rude',-.5);">Being rude -.5</button></br>
+    <button onclick="assignDefaults('Morning slowness',-.5);">Morning slowness -.5</button></br>
+
 <div id="history" class="history"></div>
 
 </div>
