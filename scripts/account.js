@@ -100,7 +100,7 @@ function addFunds() {
     var xmlhttp = new XMLHttpRequest();
     var url =  sheeturl + id + "/values/" + getAccountID() + "!D:F:append?insertDataOption=INSERT_ROWS&valueInputOption=RAW&alt=json&key=" + apiKey;
     //var url = 'https://content-sheets.googleapis.com/v4/spreadsheets/1cfM6dmkbDKy9gNdGNsbigQzK7wpjKDrg_y62wVDbtZ4/values/Sheet1!A:AB:append?valueInputOption=USER_ENTERED&key='+ apiKey;
-    var body = '{"values": [["09/09/2018","Test2","15"]]}';
+    var body = '{"values": [["09/09/2018","Test2","15"]],scope: ["https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/spreadsheets"]}';
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
