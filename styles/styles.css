@@ -3,6 +3,7 @@
 body
 {
 	margin: auto;
+	background-color: #f5f5f5;
 }
 .content
 {
@@ -10,9 +11,8 @@ body
 }
 
 .funds {
-    position: absolute;
     margin-left: 250px;
-    margin-top: -130px;
+    margin-top: 0px;
 }
 
 .history {
@@ -58,7 +58,7 @@ table, th, td {
 /* Style the header with a grey background and some padding */
 .header {
 	overflow: hidden;
-	background-color: #f1f1f1;
+	background-color: #73a9ff;
 	padding: 10px 10px;
   }
   

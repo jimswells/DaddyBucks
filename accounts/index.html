@@ -4,16 +4,21 @@
 <script src="../scripts/script.js"></script>
 <link rel="stylesheet" type="text/css" href="../styles/styles.css">
 </head>
-<body onLoad="load();">
+<body onLoad="load();" onunload="logout();">
 <div class="header">
-    <span class="logo">Welcome back <span id="accountName"></span> to your DaddyBucks account!</span>
+    <span class="logo">Welcome back to your DaddyBucks account!</span>
     <div class="header-right">
         <a class="active" href="" onclick="logout();">Logout</a>
     </div>
 </div>
 <div class="content">
 <p><img class="avatarImg" id="accountPicture" width="175px"></img></p>
-<h1 class="funds">Available Funds <span class="historyPosAmount" id="availbleFunds"></span></h1>
+
+<h1 class="funds"><span id="accountName1"></span><span class="historyPosAmount" id="availbleFunds1"></span></h1>
+
+<h1 class="funds"><span id="accountName2"></span><span class="historyPosAmount" id="availbleFunds2"></span></h1>
+
+<h1 class="funds"><span id="accountName3"></span><span class="historyPosAmount" id="availbleFunds3"></span></h1>
 
 <div id="history" class="history"></div>
 

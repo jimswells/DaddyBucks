@@ -10,6 +10,9 @@ function checkPasscode(code)
         {
             setAccount(kid);
             auth = true;
+            if (kid.role == 'admin') {
+                admin = true;
+            }
         }
     });
 
@@ -24,16 +27,43 @@ function setAccount(kid)
     localStorage.setItem("name",kid.name);
     localStorage.setItem("picture",kid.picture);
     localStorage.setItem("role",kid.role);
+
+    if (kid.role == 'admin') {
+        var sheets = "";
+        var i = 2;// 1 based laength - 1 Admin -- not the best way to handle this
+        kids.forEach(function(kid) { 
+            if (kid.role != 'admin') {
+                if (kids.length != i++) {
+                    sheets += kid.name + ',';
+                } else {
+                    sheets += kid.name;
+                }
+            }
+        });
+        localStorage.setItem("sheets",sheets);
+    }
 }
 
 function logout(){
     localStorage.setItem("name","");
     localStorage.setItem("picture","");
+    localStorage.setItem("sheets","");
     checkAuth();
 }
 
 function getAccountID() {
     return localStorage.getItem("name");
+}
+
+function getRole() {
+    return localStorage.getItem("role");
+}
+
+function getSheets() {
+    if (localStorage.getItem("sheets") == "") {
+        return '';
+    }
+    return localStorage.getItem("sheets").split(',');
 }
 
 function checkAuth()
@@ -43,48 +73,49 @@ function checkAuth()
         document.location = "../index.html";
     }
 }
-
-
 //End Auth Section
-
-function loadAll(owen, joshua, ian)
-{
-    checkAuth();
-    getAvailable("availbleFundsOwen", owen);
-    getAvailable("availbleFundsJoshua", joshua);
-    getAvailable("availbleFundsIan", ian);
-}
 
 function load()
 {
     checkAuth();
-    setHeader();
-	getAvailable("availbleFunds", getAccountID());
-    getHistory(getAccountID());
+    if (getRole() == 'admin') {
+        var i = 1;
+        getSheets().forEach(function(name) { 
+            
+            getAvailable("availbleFunds" + i, name);
+            setHeader("accountName" + i, name);
+            i++;
+        });
+
+    } else {
+        setHeader("accountName1",localStorage.getItem("name"));
+	    getAvailable("availbleFunds1", getAccountID());
+        getHistory("history",getAccountID());
+    }
 }
 
-function setHeader()
+function setHeader(elementName,sheet)
 {
-    document.getElementById("accountName").innerHTML = localStorage.getItem("name");
+    document.getElementById(elementName).innerHTML = sheet + "'s available Funds ";
     document.getElementById("accountPicture").src = "../images/" + localStorage.getItem("picture");
     //document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
 }
 
-function getHistory(sheet)
+function getHistory(historyElement,sheet)
 {
   var xmlhttp = new XMLHttpRequest();
   var url = sheeturl + id + "/values/"+ sheet + "!D2:F1000?key=" + apiKey;
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var json = JSON.parse(this.responseText);
-          displayHistory(json);
+          displayHistory(historyElement,json);
       }
   };
 	xmlhttp.open("GET", url, true);
 	xmlhttp.send();
 }
 
-function displayHistory(json) {
+function displayHistory(historyElement,json) {
 		
     var table = '<table><tr><th>Date</th><th>Description</th><th>Amount</th></tr>';
     var altRow = true;
@@ -113,7 +144,7 @@ function displayHistory(json) {
     }
 	table += '</table>';
     
-	document.getElementById("history").innerHTML = table;
+	document.getElementById(historyElement).innerHTML = table;
 }
 
 function getAvailable(availbleFundsElement, sheet)
@@ -131,13 +162,15 @@ function getAvailable(availbleFundsElement, sheet)
 }
 
 function displayAvailableFunds(arr, availbleFundsElement) {
-
+    
     if (arr.values[0] < 0)
     {
         document.getElementById(availbleFundsElement).class = 'historyNegAmount';
     }
 
+    //alert(document.getElementById(availbleFundsElement).innerHTML);
     document.getElementById(availbleFundsElement).innerHTML = '$' + Number(arr.values[0]).toFixed(2);
+    
 }
 
 //Inital page
