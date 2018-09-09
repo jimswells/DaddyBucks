@@ -105,7 +105,7 @@ function addFunds() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
           load();
-      }else {
+      }else if (this.readyState == 4) {
         alert(this.responseText);
     }
   };
