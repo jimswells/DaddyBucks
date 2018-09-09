@@ -55,8 +55,8 @@
               "resource": {
                 "values": [
                   [
-                    "'" + document.getElementById('fundDescription').innerHTML+ "'",
-                    "'" + shortDate + "'",
+                    document.getElementById('fundDescription').innerHTML,
+                    shortDate,
                     document.getElementById('fundAmount').innerHTML
                   ]
                 ]
@@ -74,7 +74,7 @@
       </script>
       <button onclick="execute()">Add funds</button>
     
-<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number">
+<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="text">
 <div id="history" class="history"></div>
 
 </div>
