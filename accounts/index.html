@@ -6,6 +6,8 @@
 <script src="../scripts/auth.js"></script>
 <script src="../scripts/account.js"></script>
 
+<script src="https://apis.google.com/js/api.js"></script>
+
 <link rel="stylesheet" type="text/css" href="../styles/styles.css">
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -22,6 +24,47 @@
 <p><img class="avatarImg" id="accountPicture" width="175px"></img></p>
 
 <h1 class="funds"><span id="accountName"></span><span class="historyPosAmount" id="availbleFunds"></span></h1>
+
+<script>
+  /**
+   * Sample JavaScript code for sheets.spreadsheets.values.append
+   * See instructions for running APIs Explorer code samples locally:
+   * https://developers.google.com/explorer-help/guides/code_samples#javascript
+   */
+
+  function loadClient() {
+    gapi.client.setApiKey('14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs');
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/sheets/v4/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  // Make sure the client is loaded before calling this method.
+  function execute() {
+    return gapi.client.sheets.spreadsheets.values.append({
+      "spreadsheetId": "14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs",
+      "range": "D:E",
+      "valueInputOption": "RAW",
+      "resource": {
+        "values": [
+          [
+            "09/09/2018",
+            "Test3",
+            "15"
+          ]
+        ]
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+  gapi.load("client");
+</script>
+<button onclick="loadClient()">load</button>
+<button onclick="execute()">execute</button>
+
 <div class="g-signin2" data-onsuccess="onSignIn"></div><a href="#" onclick="signOut();">Sign out</a>
 <script>
   function signOut() {

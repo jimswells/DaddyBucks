@@ -109,7 +109,8 @@ function addFunds() {
         alert(this.responseText);
     }
   };
-	xmlhttp.open("POST", url, true);
+    xmlhttp.open("POST", url, true);
+    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + apiKey);
 	xmlhttp.send(body);
 }
 
