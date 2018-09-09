@@ -46,6 +46,7 @@
           }
           // Make sure the client is loaded and sign-in is complete before calling this method.
           function execute() {
+            var date = new Date();
             return gapi.client.sheets.spreadsheets.values.append({
               "spreadsheetId": "14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs",
               "range": getAccountID() + "!D:E",
@@ -53,9 +54,9 @@
               "resource": {
                 "values": [
                   [
-                    'Test3',
-                    '09/09/2018',
-                    15
+                    document.getElementById('fundDescription').innerHTML,
+                    (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear(),
+                    document.getElementById('fundAmount').innerHTML
                   ]
                 ]
               }
@@ -70,20 +71,10 @@
             gapi.auth2.init({client_id: '767773074311-g2vffu719ldvp3jh2ktjfipqqfcgqq4d.apps.googleusercontent.com'});
           });
       </script>
-      <button onclick="authenticate().then(loadClient)">authorize and load</button>
+      <button onclick="authenticate().then(loadClient).then(execute());">Add funds</button>
       <button onclick="execute()">execute</button>
-      
-
-<div class="g-signin2" data-onsuccess="onSignIn"></div><a href="#" onclick="signOut();">Sign out</a>
-<script>
-  function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-  }
-</script>
-<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number"> <input type="button" value='Add' onclick='addFunds()'><input type="button" value='Deduct' onclick='deductFunds()'>
+    
+<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number">
 <div id="history" class="history"></div>
 
 </div>
