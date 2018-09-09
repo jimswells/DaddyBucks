@@ -7,12 +7,14 @@ body
 }
 .content
 {
+	font-size: 25px;
 	margin: 10px;
 }
 
 .funds {
     margin-left: 250px;
-    margin-top: 0px;
+    margin-top: -135px;
+    padding-bottom: 90px;
 }
 
 .history {

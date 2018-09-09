@@ -96,7 +96,7 @@ function load()
 
 function setHeader(elementName,sheet)
 {
-    document.getElementById(elementName).innerHTML = sheet + "'s available Funds ";
+    document.getElementById(elementName).innerHTML = sheet + "'s available Funds ~ ";
     document.getElementById("accountPicture").src = "../images/" + localStorage.getItem("picture");
     //document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
 }
@@ -117,7 +117,7 @@ function getHistory(historyElement,sheet)
 
 function displayHistory(historyElement,json) {
 		
-    var table = '<table><tr><th>Date</th><th>Description</th><th>Amount</th></tr>';
+    var table = '<table><tr><th style="width: 25%;">Date</th><th style="width: 75%; text-align: left;">Description</th><th style="width: 25%;">Amount</th></tr>';
     var altRow = true;
     for (item in json.values.reverse()) {  
 		
@@ -169,7 +169,7 @@ function displayAvailableFunds(arr, availbleFundsElement) {
     }
 
     //alert(document.getElementById(availbleFundsElement).innerHTML);
-    document.getElementById(availbleFundsElement).innerHTML = '$' + Number(arr.values[0]).toFixed(2);
+    document.getElementById(availbleFundsElement).innerHTML =  '$' + Number(arr.values[0]).toFixed(2);
     
 }
 
