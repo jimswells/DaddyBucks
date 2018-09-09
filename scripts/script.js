@@ -97,7 +97,7 @@ function load()
 function setHeader(elementName,sheet)
 {
     document.getElementById(elementName).innerHTML = sheet + "'s available Funds ";
-    document.getElementById("accountPicture").src = "../blob/master/images/" + localStorage.getItem("picture");
+    document.getElementById("accountPicture").src = "../images/" + localStorage.getItem("picture");
     //document.getElementById("accountRole").innerHTML = localStorage.getItem("role") + " account";
 }
 
