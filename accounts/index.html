@@ -22,7 +22,15 @@
 <p><img class="avatarImg" id="accountPicture" width="175px"></img></p>
 
 <h1 class="funds"><span id="accountName"></span><span class="historyPosAmount" id="availbleFunds"></span></h1>
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<div class="g-signin2" data-onsuccess="onSignIn"></div><a href="#" onclick="signOut();">Sign out</a>
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
+</script>
 <input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number"> <input type="button" value='Add' onclick='addFunds()'><input type="button" value='Deduct' onclick='deductFunds()'>
 <div id="history" class="history"></div>
 
