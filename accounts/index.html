@@ -13,7 +13,7 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id" content="767773074311-g2vffu719ldvp3jh2ktjfipqqfcgqq4d.apps.googleusercontent.com">
 </head>
-<body onLoad="load();" onunload="logout();">
+<body onLoad="load(); authenticate().then(loadClient);" onunload="logout();">
 <div class="header">
     <span class="logo">Welcome back to your DaddyBucks account!</span>
     <div class="header-right">
@@ -72,8 +72,7 @@
             gapi.auth2.init({client_id: '767773074311-g2vffu719ldvp3jh2ktjfipqqfcgqq4d.apps.googleusercontent.com'});
           });
       </script>
-      <button onclick="authenticate().then(loadClient).then(execute());">Add funds</button>
-      <button onclick="execute()">execute</button>
+      <button onclick="execute()">Add funds</button>
     
 <input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number">
 <div id="history" class="history"></div>
