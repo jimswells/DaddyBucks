@@ -48,7 +48,7 @@
           function execute() {
             return gapi.client.sheets.spreadsheets.values.append({
               "spreadsheetId": "14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs",
-              "range": getAccountID() + "D:E",
+              "range": getAccountID() + "!D:E",
               "valueInputOption": "RAW",
               "resource": {
                 "values": [
