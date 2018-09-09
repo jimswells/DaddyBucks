@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="../scripts/script.js"></script>
+<script src="../scripts/settings.js"></script>
+<script src="../scripts/auth.js"></script>
+<script src="../scripts/account.js"></script>
+
 <link rel="stylesheet" type="text/css" href="../styles/styles.css">
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="767773074311-ghbrh4nfangsf2mioe3mdpj803mki5dp.apps.googleusercontent.com">
 </head>
 <body onLoad="load();" onunload="logout();">
 <div class="header">
@@ -14,12 +20,9 @@
 <div class="content">
 <p><img class="avatarImg" id="accountPicture" width="175px"></img></p>
 
-<h1 class="funds"><span id="accountName1"></span><span class="historyPosAmount" id="availbleFunds1"></span></h1>
-
-<h1 class="funds"><span id="accountName2"></span><span class="historyPosAmount" id="availbleFunds2"></span></h1>
-
-<h1 class="funds"><span id="accountName3"></span><span class="historyPosAmount" id="availbleFunds3"></span></h1>
-
+<h1 class="funds"><span id="accountName"></span><span class="historyPosAmount" id="availbleFunds"></span></h1>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<input id='fundDescription' type="text" style="width:40%;" ><input id='fundAmount' type="number"> <input type="button" value='Add' onclick='addFunds()'><input type="button" value='Deduct' onclick='deductFunds()'>
 <div id="history" class="history"></div>
 
 </div>
