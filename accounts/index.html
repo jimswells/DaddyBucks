@@ -47,6 +47,7 @@
           // Make sure the client is loaded and sign-in is complete before calling this method.
           function execute() {
             var date = new Date();
+            var shortDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
             return gapi.client.sheets.spreadsheets.values.append({
               "spreadsheetId": "14G5JY_DGl4mXpTFOyIZejgTnaSRhhaObpJH5N7HtzIs",
               "range": getAccountID() + "!D:E",
@@ -55,7 +56,7 @@
                 "values": [
                   [
                     document.getElementById('fundDescription').innerHTML,
-                    (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear(),
+                    shortDate,
                     document.getElementById('fundAmount').innerHTML
                   ]
                 ]
